@@ -28,7 +28,6 @@ class BSBattleMonster extends ConsumerWidget {
         final hpPercent = monster.currentHP / monster.maxHP;
         final isDead = monster.currentHP <= 0;
 
-        // Change to hit image when dead
         final displayImage = isDead
             ? monster.image.replaceAll('idle/frame-1.png', 'hit/frame.png')
             : monster.image;

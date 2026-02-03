@@ -38,7 +38,6 @@ class TurnManagerNotifier extends Notifier<TurnState> {
     final characters = ref.read(charactersProvider);
     final monsters = ref.read(monstersProvider);
 
-    // Find the next living actor
     var newOrder = ref.read(turnOrderProvider);
     int skippedCount = 0;
 
@@ -61,7 +60,6 @@ class TurnManagerNotifier extends Notifier<TurnState> {
       }
 
       if (isDead) {
-        // Move to next in turn order
         ref.read(turnOrderProvider.notifier).consumeTurn();
         newOrder = ref.read(turnOrderProvider);
         skippedCount++;
@@ -76,8 +74,6 @@ class TurnManagerNotifier extends Notifier<TurnState> {
       currentIndex: 0,
       lastMessage: null,
     );
-
-    // Monster turn will be handled by BattleScreen listener
   }
 
   Future<void> executeMonsterTurn(Monster monster) async {
@@ -85,7 +81,6 @@ class TurnManagerNotifier extends Notifier<TurnState> {
   }
 
   Future<void> _handleMonsterTurn(Monster monster) async {
-    // Check if monster is still alive
     final monsters = ref.read(monstersProvider);
     final currentMonster = monsters.firstWhere(
       (m) => m.name == monster.name,
@@ -97,7 +92,6 @@ class TurnManagerNotifier extends Notifier<TurnState> {
       return;
     }
 
-    // Show "Monster turn" message for 1 second
     state = (
       turnOrder: state.turnOrder,
       currentActor: state.currentActor,
@@ -134,7 +128,7 @@ class TurnManagerNotifier extends Notifier<TurnState> {
   }
 
   void playerAttack(Character attacker, Monster target, Spell spell) {
-    final dmg = 100; //spell.dmg.toInt();
+    final dmg = 100;
 
     final monsters = ref.read(monstersProvider);
     final idx = monsters.indexOf(target);

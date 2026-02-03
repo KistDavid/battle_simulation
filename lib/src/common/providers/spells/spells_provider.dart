@@ -22,9 +22,8 @@ class SpellsNotifier extends Notifier<List<Spell>> {
         return;
       }
     } catch (e) {
-      print('Error loading spells from Hive: $e');
+      rethrow;
     }
-    // Use mock data if Hive is empty, then save it
     await _saveToHive();
   }
 

@@ -12,9 +12,7 @@ class MonstersNotifier extends Notifier<List<Monster>> {
   List<Monster> build() {
     return [
       for (final m in monsters)
-        m.copyWith(
-          monsterSpells: List.of(m.monsterSpells),
-        ), // defensive copy with deep spell list copy
+        m.copyWith(monsterSpells: List.of(m.monsterSpells)),
     ];
   }
 
@@ -27,7 +25,7 @@ class MonstersNotifier extends Notifier<List<Monster>> {
         return;
       }
     } catch (e) {
-      // If loading fails, keep mock data
+      rethrow;
     }
   }
 
@@ -39,7 +37,6 @@ class MonstersNotifier extends Notifier<List<Monster>> {
   }
 
   void addMonster() {
-    // Rotate through monster images
     final monsterImages = [
       'lib/assets/monster/blue/idle/frame-1.png',
       'lib/assets/monster/green/idle/frame-1.png',

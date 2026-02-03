@@ -22,8 +22,7 @@ class BattleScreen extends ConsumerStatefulWidget {
 }
 
 class _BattleScreenState extends ConsumerState<BattleScreen> {
-  String?
-  _lastProcessedActorKey; // Will store "Monster:Name" or "Character:Name"
+  String? _lastProcessedActorKey;
   bool _selectingTarget = false;
   Spell? _selectedSpell;
   Character? _attackingCharacter;
@@ -32,7 +31,6 @@ class _BattleScreenState extends ConsumerState<BattleScreen> {
   @override
   void initState() {
     super.initState();
-    // Save current HP values before battle starts
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(charactersProvider.notifier).saveCurrentHP();
     });
@@ -43,7 +41,6 @@ class _BattleScreenState extends ConsumerState<BattleScreen> {
     ref.listen(turnManagerProvider, (previous, next) {
       final actor = next.currentActor;
 
-      // Create a unique key for the current actor
       String? currentActorKey;
       if (actor is Monster) {
         currentActorKey = "Monster:${actor.name}";
@@ -51,12 +48,10 @@ class _BattleScreenState extends ConsumerState<BattleScreen> {
         currentActorKey = "Character:${actor.name}";
       }
 
-      // Only process if this is a different actor than last time
       if (currentActorKey != null &&
           currentActorKey != _lastProcessedActorKey) {
         _lastProcessedActorKey = currentActorKey;
 
-        // Execute monster turn if it's a monster
         if (actor is Monster) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             await ref
@@ -69,12 +64,10 @@ class _BattleScreenState extends ConsumerState<BattleScreen> {
       final monsters = ref.read(monstersProvider);
       final characters = ref.read(charactersProvider);
 
-      // Check for victory condition
       final allMonstersDead = monsters
           .where((m) => m.inBattle)
           .every((m) => m.currentHP <= 0);
 
-      // Check for loss condition
       final allCharactersDead = characters
           .where((c) => c.inBattle)
           .every((c) => c.currentHP <= 0);
@@ -236,12 +229,10 @@ class _BattleScreenState extends ConsumerState<BattleScreen> {
                         if (aliveMonsters.isEmpty) return;
 
                         if (aliveMonsters.length == 1) {
-                          // Only one monster alive, attack it directly
                           ref
                               .read(turnManagerProvider.notifier)
                               .playerAttack(actor, aliveMonsters.first, spell);
                         } else {
-                          // Multiple monsters, enter target selection mode
                           setState(() {
                             _selectingTarget = true;
                             _selectedSpell = spell;

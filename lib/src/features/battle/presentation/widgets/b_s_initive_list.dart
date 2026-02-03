@@ -30,7 +30,6 @@ class BSInitiativeList extends ConsumerWidget {
               : const Color.fromARGB(180, 255, 193, 7);
           final borderWidth = isActive ? 3.0 : 1.0;
 
-          // Check current HP from providers
           bool isDead = false;
           if (participant is Monster) {
             final monsters = ref.watch(monstersProvider);

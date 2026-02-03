@@ -12,7 +12,6 @@ class HiveService {
     final appDocDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocDir.path);
 
-    // Register adapters
     Hive.registerAdapter(CharacterAdapter());
     Hive.registerAdapter(MonsterAdapter());
     Hive.registerAdapter(SpellAdapter());

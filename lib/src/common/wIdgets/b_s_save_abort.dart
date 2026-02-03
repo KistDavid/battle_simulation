@@ -75,7 +75,6 @@ class BSSaveAbort extends StatelessWidget {
             final valid = formState.validate();
             if (!valid) return;
 
-            // Call custom validation if provided
             if (onValidateSave != null && !onValidateSave!()) {
               return;
             }

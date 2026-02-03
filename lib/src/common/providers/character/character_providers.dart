@@ -32,7 +32,7 @@ class CharactersNotifier extends Notifier<List<Character>> {
         return;
       }
     } catch (e) {
-      // If loading fails, keep mock data
+      rethrow;
     }
   }
 

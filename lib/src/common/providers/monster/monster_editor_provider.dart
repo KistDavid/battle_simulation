@@ -23,7 +23,6 @@ class MonsterEditorNotifier extends Notifier<MonsterEditorState> {
   MonsterEditorState build() {
     final monsters = ref.watch(monstersProvider);
 
-    // When monster list changes, validate the preserved selection
     if (_preservedSelection >= monsters.length && monsters.isNotEmpty) {
       _preservedSelection = monsters.length - 1;
     }
@@ -41,13 +40,11 @@ class MonsterEditorNotifier extends Notifier<MonsterEditorState> {
 
   void toggleMonsterInParty(int index, BuildContext context) {
     final current = List<bool>.from(state.inParty);
-    // Expand the list if necessary
     while (current.length <= index) {
       current.add(false);
     }
     final count = current.where((e) => e).length;
 
-    // If trying to add and already at 3
     if (!current[index] && count >= 3) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -59,7 +56,6 @@ class MonsterEditorNotifier extends Notifier<MonsterEditorState> {
       return;
     }
 
-    // If trying to remove and only 1 selected
     if (current[index] && count <= 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

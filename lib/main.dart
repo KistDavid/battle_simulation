@@ -32,17 +32,75 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class _LoadDataOnStartup extends ConsumerWidget {
+class _LoadDataOnStartup extends ConsumerStatefulWidget {
   final Widget child;
 
   const _LoadDataOnStartup({required this.child});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(charactersProvider.notifier).loadFromHive();
-    ref.read(monstersProvider.notifier).loadFromHive();
-    ref.read(spellsProvider.notifier).loadFromHive();
+  ConsumerState<_LoadDataOnStartup> createState() => _LoadDataOnStartupState();
+}
 
-    return child;
+class _LoadDataOnStartupState extends ConsumerState<_LoadDataOnStartup> {
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      await ref.read(charactersProvider.notifier).loadFromHive();
+      await ref.read(monstersProvider.notifier).loadFromHive();
+      await ref.read(spellsProvider.notifier).loadFromHive();
+    } catch (e) {
+      if (mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showErrorDialog();
+        });
+      }
+    }
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(200, 0, 0, 0),
+          title: Text(
+            'Error',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          content: Text(
+            'Sorry something weird happened!',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          actions: [
+            SizedBox(
+              width: 100,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const StartScreen()),
+                  );
+                },
+                child: Text(
+                  'OK',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

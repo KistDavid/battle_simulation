@@ -26,7 +26,6 @@ class _SpellEditorState extends State<SpellEditor> {
     checkedSpells = widget.allSpells
         .map((spell) => widget.selectedSpells.any((s) => s.name == spell.name))
         .toList();
-    // Ensure at least the first spell is selected
     if (checkedSpells.isEmpty) {
       checkedSpells.add(true);
     } else if (!checkedSpells.any((checked) => checked)) {
@@ -61,7 +60,6 @@ class _SpellEditorState extends State<SpellEditor> {
                           selectedSpells.add(widget.allSpells[i]);
                         }
                       }
-                      // Validate at least one spell is selected
                       if (selectedSpells.isEmpty) {
                         showDialog(
                           context: context,
@@ -145,7 +143,6 @@ class _SpellEditorState extends State<SpellEditor> {
                         Checkbox(
                           value: checkedSpells[index],
                           onChanged: (value) {
-                            // Prevent unchecking if this is the only selected spell
                             final selectedCount = checkedSpells
                                 .where((c) => c)
                                 .length;

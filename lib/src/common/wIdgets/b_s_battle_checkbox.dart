@@ -23,7 +23,6 @@ class BSBattleCheckbox extends StatelessWidget {
       onChanged: (_) {
         final newValue = !value;
 
-        // Check if trying to add more than max
         if (newValue && selectedCount >= maxSelected) {
           showDialog(
             context: context,
@@ -55,7 +54,6 @@ class BSBattleCheckbox extends StatelessWidget {
           return;
         }
 
-        // Check if trying to remove the last one
         if (!newValue && selectedCount <= 1) {
           showDialog(
             context: context,

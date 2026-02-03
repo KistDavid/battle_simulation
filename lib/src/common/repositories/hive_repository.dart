@@ -21,7 +21,6 @@ class HiveRepository {
     }
   }
 
-  // Character operations
   Future<void> saveCharacters(List<Character> characters) async {
     await _ensureInitialized();
     await _characterBox!.clear();
@@ -42,7 +41,6 @@ class HiveRepository {
     await _characterBox!.put(index, character);
   }
 
-  // Monster operations
   Future<void> saveMonsters(List<Monster> monsters) async {
     await _ensureInitialized();
     await _monsterBox!.clear();
@@ -63,7 +61,6 @@ class HiveRepository {
     await _monsterBox!.put(index, monster);
   }
 
-  // Spell operations
   Future<void> saveSpells(List<Spell> spells) async {
     await _ensureInitialized();
     await _spellBox!.clear();

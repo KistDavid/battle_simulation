@@ -26,7 +26,6 @@ class CharacterEditorNotifier extends Notifier<CharacterEditorState> {
   CharacterEditorState build() {
     final characters = ref.watch(charactersProvider);
 
-    // When character list changes, validate the preserved selection
     if (_preservedSelection >= characters.length && characters.isNotEmpty) {
       _preservedSelection = characters.length - 1;
     }
@@ -44,13 +43,11 @@ class CharacterEditorNotifier extends Notifier<CharacterEditorState> {
 
   void toggleCharacterInParty(int index, BuildContext context) {
     final current = List<bool>.from(state.inParty);
-    // Expand the list if necessary
     while (current.length <= index) {
       current.add(false);
     }
     final count = current.where((e) => e).length;
 
-    // If trying to add and already at 4
     if (!current[index] && count >= 4) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -62,7 +59,6 @@ class CharacterEditorNotifier extends Notifier<CharacterEditorState> {
       return;
     }
 
-    // If trying to remove and only 4 selected
     if (current[index] && count <= 4) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
