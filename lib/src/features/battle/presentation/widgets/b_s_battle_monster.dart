@@ -1,9 +1,17 @@
+import 'package:battle_simulation/src/common/models/monster.dart';
 import 'package:battle_simulation/src/common/providers/monster/monsters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BSBattleMonster extends ConsumerWidget {
-  const BSBattleMonster({super.key});
+  final bool selectingTarget;
+  final Function(Monster)? onMonsterTap;
+
+  const BSBattleMonster({
+    super.key,
+    this.selectingTarget = false,
+    this.onMonsterTap,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,6 +26,12 @@ class BSBattleMonster extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: fightingMonsters.map((monster) {
         final hpPercent = monster.currentHP / monster.maxHP;
+        final isDead = monster.currentHP <= 0;
+
+        // Change to hit image when dead
+        final displayImage = isDead
+            ? monster.image.replaceAll('idle/frame-1.png', 'hit/frame.png')
+            : monster.image;
 
         return SizedBox(
           height: 350,
@@ -34,10 +48,27 @@ class BSBattleMonster extends ConsumerWidget {
                   valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
                 ),
               ),
-              SizedBox(
-                height: 140,
-                width: 200,
-                child: Image.asset(monster.image, fit: BoxFit.contain),
+              GestureDetector(
+                onTap: () {
+                  if (selectingTarget && !isDead && onMonsterTap != null) {
+                    onMonsterTap!(monster);
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: selectingTarget && !isDead
+                          ? Colors.yellow
+                          : Colors.transparent,
+                      width: 3,
+                    ),
+                  ),
+                  child: SizedBox(
+                    height: 140,
+                    width: 200,
+                    child: Image.asset(displayImage, fit: BoxFit.contain),
+                  ),
+                ),
               ),
             ],
           ),

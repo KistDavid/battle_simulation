@@ -39,6 +39,15 @@ class MonstersNotifier extends Notifier<List<Monster>> {
   }
 
   void addMonster() {
+    // Rotate through monster images
+    final monsterImages = [
+      'lib/assets/monster/blue/idle/frame-1.png',
+      'lib/assets/monster/green/idle/frame-1.png',
+      'lib/assets/monster/orange/idle/frame-1.png',
+    ];
+
+    final imageIndex = state.length % monsterImages.length;
+
     final newMonster = Monster(
       name: 'New Monster',
       maxHP: 500,
@@ -47,7 +56,7 @@ class MonstersNotifier extends Notifier<List<Monster>> {
       mp: 0,
       luck: 0,
       speed: 50,
-      image: 'lib/assets/monster/blue/idle/frame-1.png',
+      image: monsterImages[imageIndex],
       inBattle: false,
       haste: 1.0,
       monsterSpells: [],

@@ -9,12 +9,18 @@ final charactersProvider =
     );
 
 class CharactersNotifier extends Notifier<List<Character>> {
+  Map<String, int> _savedHP = {};
+
   @override
   List<Character> build() {
     return [
       for (final c in initialCharacters)
         c.copyWith(characterSpells: List.of(c.characterSpells)),
     ];
+  }
+
+  void saveCurrentHP() {
+    _savedHP = {for (final c in state) c.name: c.currentHP};
   }
 
   Future<void> loadFromHive() async {
@@ -77,9 +83,18 @@ class CharactersNotifier extends Notifier<List<Character>> {
   }
 
   void resetAll() {
+    state = [for (final c in state) c.copyWith(haste: 1.0, speed: c.speed)];
+    _saveToHive();
+  }
+
+  void resetHP() {
     state = [
       for (final c in state)
-        c.copyWith(currentHP: c.maxHP, haste: 1.0, speed: c.speed),
+        c.copyWith(
+          currentHP: _savedHP.containsKey(c.name)
+              ? _savedHP[c.name]!
+              : c.currentHP,
+        ),
     ];
     _saveToHive();
   }

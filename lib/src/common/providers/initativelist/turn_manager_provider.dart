@@ -35,22 +35,78 @@ class TurnManagerNotifier extends Notifier<TurnState> {
 
   void nextTurn() {
     ref.read(turnOrderProvider.notifier).consumeTurn();
-    final newOrder = ref.read(turnOrderProvider);
+    final characters = ref.read(charactersProvider);
+    final monsters = ref.read(monstersProvider);
+
+    // Find the next living actor
+    var newOrder = ref.read(turnOrderProvider);
+    int skippedCount = 0;
+
+    while (newOrder.isNotEmpty && skippedCount < newOrder.length) {
+      final actor = newOrder.first;
+      bool isDead = false;
+
+      if (actor is Monster) {
+        final currentMonster = monsters.firstWhere(
+          (m) => m.name == actor.name,
+          orElse: () => actor,
+        );
+        isDead = currentMonster.currentHP <= 0;
+      } else if (actor is Character) {
+        final currentCharacter = characters.firstWhere(
+          (c) => c.name == actor.name,
+          orElse: () => actor,
+        );
+        isDead = currentCharacter.currentHP <= 0;
+      }
+
+      if (isDead) {
+        // Move to next in turn order
+        ref.read(turnOrderProvider.notifier).consumeTurn();
+        newOrder = ref.read(turnOrderProvider);
+        skippedCount++;
+      } else {
+        break;
+      }
+    }
 
     state = (
       turnOrder: newOrder,
-      currentActor: newOrder.first,
+      currentActor: newOrder.isNotEmpty ? newOrder.first : null,
       currentIndex: 0,
       lastMessage: null,
     );
 
-    if (newOrder.first is Monster) {
-      _handleMonsterTurn(newOrder.first as Monster);
-    }
+    // Monster turn will be handled by BattleScreen listener
   }
 
-  void _handleMonsterTurn(Monster monster) async {
-    await Future.delayed(const Duration(seconds: 5));
+  Future<void> executeMonsterTurn(Monster monster) async {
+    await _handleMonsterTurn(monster);
+  }
+
+  Future<void> _handleMonsterTurn(Monster monster) async {
+    // Check if monster is still alive
+    final monsters = ref.read(monstersProvider);
+    final currentMonster = monsters.firstWhere(
+      (m) => m.name == monster.name,
+      orElse: () => monster,
+    );
+
+    if (currentMonster.currentHP <= 0) {
+      nextTurn();
+      return;
+    }
+
+    // Show "Monster turn" message for 1 second
+    state = (
+      turnOrder: state.turnOrder,
+      currentActor: state.currentActor,
+      currentIndex: state.currentIndex,
+      lastMessage: "${monster.name} turn",
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+
     final characters = ref.read(charactersProvider);
 
     final target = characters.firstWhere(
@@ -102,6 +158,7 @@ class TurnManagerNotifier extends Notifier<TurnState> {
 
   void reset() {
     ref.read(charactersProvider.notifier).resetAll();
+    ref.read(charactersProvider.notifier).resetHP();
     ref.read(monstersProvider.notifier).resetAll();
 
     final characters = ref.read(charactersProvider);
