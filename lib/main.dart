@@ -39,7 +39,6 @@ class _LoadDataOnStartup extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Load data from Hive on startup
     ref.read(charactersProvider.notifier).loadFromHive();
     ref.read(monstersProvider.notifier).loadFromHive();
     ref.read(spellsProvider.notifier).loadFromHive();
