@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:battle_simulation/src/common/models/monster.dart';
-import 'package:battle_simulation/src/common/data/mock_data/monsters.dart';
-import 'package:battle_simulation/src/common/providers/hive_repository_provider.dart';
+import 'package:battle_simulation/src/common/data/initialize/monsters.dart';
+import 'package:battle_simulation/src/common/providers/common/hive_repository_provider.dart';
 
 final monstersProvider = NotifierProvider<MonstersNotifier, List<Monster>>(
   MonstersNotifier.new,

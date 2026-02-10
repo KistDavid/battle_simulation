@@ -1,16 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+class _MaxValueInputFormatter extends TextInputFormatter {
+  final int maxValue;
+
+  _MaxValueInputFormatter(this.maxValue);
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    final newNumber = double.tryParse(newValue.text);
+    if (newNumber == null) {
+      return oldValue;
+    }
+
+    if (newNumber > maxValue) {
+      return oldValue;
+    }
+
+    return newValue;
+  }
+}
+
 class BSTextFormField extends StatelessWidget {
   final String initialText;
   final Key fieldKey;
   final void Function(double value)? onSavedValue;
+  final int maxValue;
 
   const BSTextFormField({
     super.key,
     required this.initialText,
     required this.fieldKey,
     this.onSavedValue,
+    this.maxValue = 9999,
   });
 
   String? _validate(String? value) {
@@ -23,8 +52,8 @@ class BSTextFormField extends StatelessWidget {
       return 'Nur gültige Zahlen (z.B. 2.0)';
     }
 
-    if (number < 0 || number > 9999) {
-      return 'Nur Zahlen von 0 bis 9999';
+    if (number < 0 || number > maxValue) {
+      return 'Nur Zahlen von 0 bis $maxValue';
     }
 
     return null;
@@ -40,6 +69,7 @@ class BSTextFormField extends StatelessWidget {
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+          _MaxValueInputFormatter(maxValue),
         ],
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headlineMedium,

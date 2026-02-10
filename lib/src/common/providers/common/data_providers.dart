@@ -2,13 +2,13 @@ import 'package:battle_simulation/src/common/models/character.dart';
 import 'package:battle_simulation/src/common/models/monster.dart';
 import 'package:battle_simulation/src/common/models/spell.dart';
 
-import 'package:battle_simulation/src/common/data/mock_data/characters.dart'
+import 'package:battle_simulation/src/common/data/initialize/characters.dart'
     as mock_characters;
-import 'package:battle_simulation/src/common/data/mock_data/monsters.dart'
+import 'package:battle_simulation/src/common/data/initialize/monsters.dart'
     as mock_monsters;
-import 'package:battle_simulation/src/common/data/mock_data/spells.dart'
+import 'package:battle_simulation/src/common/data/initialize/spells.dart'
     as mock_spells;
-import 'package:battle_simulation/src/common/data/mock_data/messages.dart'
+import 'package:battle_simulation/src/common/data/initialize/messages.dart'
     as mock_messages;
 
 import 'package:flutter_riverpod/legacy.dart';

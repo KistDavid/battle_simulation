@@ -28,6 +28,7 @@ class BSHpRow extends ConsumerWidget {
           BSTextFormField(
             initialText: character!.currentHP.toString(),
             fieldKey: const ValueKey("currentHP"),
+            maxValue: 9999,
             onSavedValue: (value) {
               final latest = ref.read(charactersProvider)[selectedChar];
               final updated = latest.copyWith(currentHP: value.toInt());
@@ -45,6 +46,7 @@ class BSHpRow extends ConsumerWidget {
               ? character!.maxHP.toString()
               : monster!.maxHP.toString(),
           fieldKey: const ValueKey("maxHP"),
+          maxValue: 9999,
           onSavedValue: (value) {
             if (isChar) {
               final latest = ref.read(charactersProvider)[selectedChar];

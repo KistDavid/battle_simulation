@@ -2,7 +2,7 @@ import 'package:battle_simulation/src/common/providers/character/character_edito
 import 'package:battle_simulation/src/common/providers/character/character_providers.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_back_button.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_save_abort.dart';
-import 'package:battle_simulation/src/common/widgets/b_s_spell_list.dart';
+import 'package:battle_simulation/src/features/character/domain/b_s_character_spell_list.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_stats_column.dart';
 
 import 'package:flutter/material.dart';
@@ -120,18 +120,6 @@ class CharacterScreen extends ConsumerWidget {
                           final chars = ref.read(charactersProvider);
                           characterNotifier.selectCharacter(chars.length - 1);
                         });
-                      },
-                      onAbortDelete: () {
-                        ref
-                            .read(charactersProvider.notifier)
-                            .deleteCharacter(selectedCharacter);
-                        if (selectedCharacter > 0) {
-                          characterNotifier.selectCharacter(
-                            selectedCharacter - 1,
-                          );
-                        } else if (ref.read(charactersProvider).isNotEmpty) {
-                          characterNotifier.selectCharacter(0);
-                        }
                       },
                       onDelete: () {
                         ref

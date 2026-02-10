@@ -61,6 +61,7 @@ class BSStatRow extends ConsumerWidget {
         BSTextFormField(
           initialText: getValue().toString(),
           fieldKey: ValueKey(stat),
+          maxValue: 999,
           onSavedValue: (value) {
             if (isChar) {
               final latest = ref.read(charactersProvider)[selectedChar];

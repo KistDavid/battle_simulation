@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:battle_simulation/src/common/models/character.dart';
-import 'package:battle_simulation/src/common/providers/data_providers.dart';
-import 'package:battle_simulation/src/common/providers/hive_repository_provider.dart';
+import 'package:battle_simulation/src/common/providers/common/data_providers.dart';
+import 'package:battle_simulation/src/common/providers/common/hive_repository_provider.dart';
 
 final charactersProvider =
     NotifierProvider<CharactersNotifier, List<Character>>(

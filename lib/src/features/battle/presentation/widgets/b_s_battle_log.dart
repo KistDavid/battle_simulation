@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:battle_simulation/src/common/providers/data_providers.dart';
+import 'package:battle_simulation/src/common/providers/common/data_providers.dart';
 
 class BSBattleLog extends ConsumerWidget {
   const BSBattleLog({super.key});

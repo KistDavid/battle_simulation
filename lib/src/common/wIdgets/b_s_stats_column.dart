@@ -1,4 +1,4 @@
-import 'package:battle_simulation/src/common/widgets/b_s_hp_row.dart';
+import 'package:battle_simulation/src/features/character/domain/b_s_hp_row.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_stat_row.dart';
 import 'package:flutter/material.dart';
 

@@ -1,19 +1,19 @@
-import 'package:battle_simulation/src/common/data/mock_data/spells.dart';
-import 'package:battle_simulation/src/common/providers/character/character_editor_provider.dart';
-import 'package:battle_simulation/src/common/providers/character/character_providers.dart';
-import 'package:battle_simulation/src/common/widgets/spell_editor.dart';
+import 'package:battle_simulation/src/common/data/initialize/spells.dart';
+import 'package:battle_simulation/src/common/providers/monster/monster_editor_provider.dart';
+import 'package:battle_simulation/src/common/providers/monster/monsters_provider.dart';
+import 'package:battle_simulation/src/features/spells/domain/spell_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BSSpellList extends ConsumerWidget {
-  const BSSpellList({super.key});
+class BSMonsterSpellList extends ConsumerWidget {
+  const BSMonsterSpellList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final characterState = ref.watch(characterEditorProvider);
-    final selectedCharacter = characterState.selectedCharacter;
-    final characters = ref.watch(charactersProvider);
-    final currentCharacter = characters[selectedCharacter];
+    final monsterState = ref.watch(monsterEditorProvider);
+    final selectedMonster = monsterState.selectedMonster;
+    final monsters = ref.watch(monstersProvider);
+    final currentMonster = monsters[selectedMonster];
 
     return Expanded(
       child: Column(
@@ -30,15 +30,15 @@ class BSSpellList extends ConsumerWidget {
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return SpellEditor(
-                        selectedSpells: currentCharacter.characterSpells,
+                        selectedSpells: currentMonster.monsterSpells,
                         allSpells: spells,
                         onSpellsChanged: (selectedSpells) {
                           ref
-                              .read(charactersProvider.notifier)
-                              .updateCharacter(
-                                selectedCharacter,
-                                currentCharacter.copyWith(
-                                  characterSpells: selectedSpells,
+                              .read(monstersProvider.notifier)
+                              .updateMonster(
+                                selectedMonster,
+                                currentMonster.copyWith(
+                                  monsterSpells: selectedSpells,
                                 ),
                               );
                         },
@@ -61,7 +61,7 @@ class BSSpellList extends ConsumerWidget {
               separatorBuilder: (context, index) => SizedBox(height: 10),
               shrinkWrap: true,
               padding: const EdgeInsets.all(10),
-              itemCount: currentCharacter.characterSpells.length,
+              itemCount: currentMonster.monsterSpells.length,
               itemBuilder: (context, index) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -69,7 +69,7 @@ class BSSpellList extends ConsumerWidget {
                   children: [
                     Icon(Icons.person),
                     Text(
-                      currentCharacter.characterSpells[index].name,
+                      currentMonster.monsterSpells[index].name,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ],

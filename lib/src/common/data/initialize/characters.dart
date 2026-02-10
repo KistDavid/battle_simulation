@@ -14,7 +14,13 @@ List<Character> characters = [
     inBattle: false,
     haste: 1,
     characterSpells: [
-      Spell(name: "one", dmg: 1, cd: 1, delay: 1, element: SpellType.Fire.name),
+      Spell(
+        name: "Fire",
+        dmg: 1,
+        cd: 1,
+        delay: 1,
+        element: SpellType.Fire.name,
+      ),
     ],
   ),
   Character(
@@ -29,7 +35,7 @@ List<Character> characters = [
     inBattle: false,
     haste: 1,
     characterSpells: [
-      Spell(name: "two", dmg: 1, cd: 1, delay: 1, element: SpellType.Fire.name),
+      Spell(name: "Ice", dmg: 1, cd: 1, delay: 1, element: SpellType.Ice.name),
     ],
   ),
   Character(
@@ -45,11 +51,11 @@ List<Character> characters = [
     haste: 1,
     characterSpells: [
       Spell(
-        name: "three",
+        name: "Lightning",
         dmg: 1,
         cd: 1,
         delay: 1,
-        element: SpellType.Fire.name,
+        element: SpellType.Lightning.name,
       ),
     ],
   ),
@@ -66,12 +72,13 @@ List<Character> characters = [
     haste: 1,
     characterSpells: [
       Spell(
-        name: "four",
+        name: "Fire",
         dmg: 1,
         cd: 1,
         delay: 1,
         element: SpellType.Fire.name,
       ),
+      Spell(name: "Ice", dmg: 1, cd: 1, delay: 1, element: SpellType.Ice.name),
     ],
   ),
 ];

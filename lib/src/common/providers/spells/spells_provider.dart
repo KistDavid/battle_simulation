@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:battle_simulation/src/common/models/spell.dart';
-import 'package:battle_simulation/src/common/data/mock_data/spells.dart';
-import 'package:battle_simulation/src/common/providers/hive_repository_provider.dart';
+import 'package:battle_simulation/src/common/data/initialize/spells.dart';
+import 'package:battle_simulation/src/common/providers/common/hive_repository_provider.dart';
 
 final spellsProvider = NotifierProvider<SpellsNotifier, List<Spell>>(
   SpellsNotifier.new,

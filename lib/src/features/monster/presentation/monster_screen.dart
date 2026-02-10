@@ -2,7 +2,7 @@ import 'package:battle_simulation/src/common/providers/monster/monster_editor_pr
 import 'package:battle_simulation/src/common/providers/monster/monsters_provider.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_back_button.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_save_abort.dart';
-import 'package:battle_simulation/src/common/widgets/b_s_monster_spell_list.dart';
+import 'package:battle_simulation/src/features/monster/domain/b_s_monster_spell_list.dart';
 import 'package:battle_simulation/src/common/widgets/b_s_stats_column.dart';
 
 import 'package:flutter/material.dart';
@@ -118,16 +118,6 @@ class MonsterScreen extends ConsumerWidget {
                           return false;
                         }
                         return true;
-                      },
-                      onAbortDelete: () {
-                        ref
-                            .read(monstersProvider.notifier)
-                            .deleteMonster(selectedMonster);
-                        if (selectedMonster > 0) {
-                          monsterNotifier.selectMonster(selectedMonster - 1);
-                        } else if (ref.read(monstersProvider).isNotEmpty) {
-                          monsterNotifier.selectMonster(0);
-                        }
                       },
                       onDelete: () {
                         ref
